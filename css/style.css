@@ -229,7 +229,7 @@ body{ font:16px/26px "Trykker", Helvetica, Helvetica Neue, Arial; background-col
     ALL: Orange Theme
    =================== */
 
-#header-container{ border-bottom: 10px solid #4d1eb3; 
+#header-container{ border-bottom: 1px solid #4d1eb3; 
 				   border-top:    1px solid #888;  }
 #footer-container{ border-top:    1px solid #aaa; }
 #main-container  { 
@@ -246,7 +246,7 @@ body{ font:16px/26px "Trykker", Helvetica, Helvetica Neue, Arial; background-col
 }
 #main aside{
 	background:    #ddd;
-	border-top:    10px solid #3f1990;
+	border-top:    3px solid #3f1990;
 	border-left:   1px solid #999;
 	border-right:  1px solid #bbb;
 }
