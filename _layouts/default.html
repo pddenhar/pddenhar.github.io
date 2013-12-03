@@ -14,6 +14,9 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<link href='http://fonts.googleapis.com/css?family=Lato|Trykker|Flamenco:300,400' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/style.css">
+	{% if page.custom_css %}
+		<link rel="stylesheet" href="css/{{ page.custom_css }}">
+	{% endif %}
 
 	<script src="js/libs/modernizr-2.0.6.min.js"></script>
 </head>
@@ -26,7 +29,6 @@
 				<ul>
 					<li><a href="./index.html">Home</a></li>
 					<li><a href="./skills.html">Skills</a></li>
-					<li><a href="./portfolio.html">Portfolio</a></li>
 				</ul>
 			</nav>
 		</header>

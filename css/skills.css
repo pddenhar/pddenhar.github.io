@@ -1,0 +1,17 @@
+article#skills section h3 {
+	width:170px;  
+	display:inline-block;
+	padding:0;
+	margin:0;
+
+}
+article#skills section h3:after {
+	content:':';
+}
+article#skills div.skill {
+	display:block;
+	padding:5px;
+	padding-left:0;
+}
+article#skills span.rating {
+}
