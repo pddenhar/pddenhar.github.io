@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Extending Deluge's Execute on Complete Functionality
+custom_css: syntax.css
 ---
 I run Deluge on one of my headless server instances to seed several different categories 
 of torrent (Linux mint ISOs, etc) and I like to have completed torrents automatically 
