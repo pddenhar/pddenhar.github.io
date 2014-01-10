@@ -14,11 +14,11 @@ sudo mysqlslap -u root -p --concurrency=8 --iterations=5 --number-int-cols=4 --n
 
 The three computers used were a laptop with an Intel SSD, a desktop computer with a 500GB WD hard drive, and an older server with dual Pentium 4s and a server class hard drive. 
 
-| Test | SSD Runtime [s] | Desktop Runtime [s] | Server Runtime [s] |
-| ---- | ----------- | --------------- | -------------- |
-| Running 80 queries using a single mysql connection | 0.057 | 2.100 | 1.552 |
-| Running 80 queries each from 8 concurrent mysql connections (640 total) | 0.083 | 4.201 | 3.422 |
-| Running 80 queries each from 30 concurrent mysql connections (2400 total) | 0.522 | 4.393 | 9.203 |
+| Test | # of Connections | Queries/Connection | Total Queries | SSD Runtime [s] | Desktop Runtime [s] | Server Runtime [s] |
+| ---- | ---------------- | ------------------ | ------------- | --------------- | ------------------- | ------------------ |
+| 1 | 1 | 80 | 80 | 0.057 | 2.100 | 1.552 |
+| 2 | 8 |  80 | 640 | 0.083 | 4.201 | 3.422 |
+| 3 | 30 | 80 | 2400 | 0.522 | 4.393 | 9.203 |
 
 My conclusions here are that database performance is extremely disk IO bound in the case of a single connection (one gateway) and a low number of concurrent connections (8 gateways). As the number of concurrent connections grows to 30, performance becomes more compute bound. The desktop runtime stayed almost the same while running 3.75x more queries as the number of concurrent connections was increased to 30, while the old server had a significant increase in runtime, most likely due to its much slower processor. The laptop with the SSD also had a large runtime increase, likely because the SSD was able saturate the processor.  
 
