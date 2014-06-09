@@ -13,10 +13,10 @@ At this point, turn on the ESXi SSH service and connect to it.
 
 ![SSH Service]({{ site.url }}/images/ESXi/ssh.PNG)
 
-Browse to your datastore containing the master VM, download my script from [GitHub](https://github.com/pddenhar/esxi-linked-clone), and run it. The first argument should be the folder name of your base image and the second argument should be the name of the folder you want the clone output to.
+Browse to your datastore containing the master VM, copy/paste my script from [its GitHub repo](https://github.com/pddenhar/esxi-linked-clone) (ESXi wget doesn't support direct wget from https), and run it. The first argument should be the folder name of your base image and the second argument should be the name of the folder you want the clone output to.
 {% highlight bash %}
 ls /vmfs/volumes/Datastore/
-wget https://raw.githubusercontent.com/pddenhar/esxi-linked-clone/master/clone.sh
+vi clone.sh # enter insert mode (i), paste code in, press escape and save file with :wq
 ./clone.sh Ubuntu\ Server\ Base\ \(Don\'t\ Touch\)/ Server\ Clone\ 1
 {% endhighlight %}
 
@@ -24,4 +24,4 @@ The script will copy the virtual machine and the base image snapshot to the new 
 
 ![Adding to Inventory]({{ site.url }}/images/ESXi/add.png)
 
-Hopefully this script will be helpful to you if you need to quickly make a large number of linked clones in ESXi!
+Any time you need more linked clones in the future you can just run the script again with more unique names and add the resulting copies. Hopefully this script will be helpful to you if you need to quickly make a large number of linked clones in ESXi!
