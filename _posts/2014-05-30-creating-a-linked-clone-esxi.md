@@ -25,3 +25,9 @@ The script will copy the virtual machine and the base image snapshot to the new 
 ![Adding to Inventory]({{ site.url }}/images/ESXi/add.png)
 
 Any time you need more linked clones in the future you can just run the script again with more unique names and add the resulting copies. Hopefully this script will be helpful to you if you need to quickly make a large number of linked clones in ESXi!
+
+**Update 10/30/14:**
+
+[oliverbock](https://github.com/oliverbock) created a nice [pull request](https://github.com/pddenhar/esxi-linked-clone/pull/2) to add some new features to clone.sh. 
+The changes are pretty self explanatory, but the big new feature is that clones are automatically registered when they are created. He also added a deleteclone.sh
+script that you can use to safely remove clones (using ESXi to delete a clone will also delete the base disk.)	
