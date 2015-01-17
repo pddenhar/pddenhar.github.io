@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Making Flask blueprint templates behave sanely
+title: Making Flask Blueprint Templates Behave
 custom_css: syntax.css
 ---
 A lot of the work I do involves large Flask applications structured in the manner described by the excellent Digital Ocean guide [How To Structure Large Flask Applications](https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications). A side effect of this is that for large applications with many blueprints you end up with a templates folder that is a jumble of subdirectories, each relating to a specific blueprint. On a recent project, I decided I wanted to start storing an individual templates folder inside of
