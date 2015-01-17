@@ -65,3 +65,34 @@ class MyApp(Flask):
 There are three important changes being made here. The first is that the jinja_loader object (a FileSystemLoader pointing to the global templates folder) is being replaced with a ChoiceLoader object that will first search the normal FileSystemLoader and then check a PrefixLoader that we create. The second is that the create_global_jinja_loader method is being overridden to simply return the loader we set up in the \_\_init\_\_ method. We will be handling the blueprint's template folders with the PrefixLoader, so there is no need for the [DispatchingJinjaLoader](https://github.com/mitsuhiko/flask/blob/33534bb4a9937e6faba5ecec4586519f453369b6/flask/templating.py#L46-100) to be created. Finally, the register_blueprint method is overridden to add the blueprint's name to the prefix loader's mapping.
 
 The end result is that you can always call render_template('base.html') and Jinja will search the base directory of your site. From within the "users" blueprint, a call to render_template('users.index.html') will always render what you expect it to and a call like render_template('index.html') would fail for being non-specific. If you wanted to, you could even go a step further and subclass Blueprint and create its own render_template method that would first search its own template loader without the need for prefixes. As things stand though, I'm happy with this solution and actually prefer the specificity that the prefix loader provides. 
+
+The final product is an \_\_init\_\_.py file that looks something like this:
+{% highlight python %}
+from flask import Flask, render_template
+import jinja2
+
+class MyApp(Flask):
+    def __init__(self):
+        Flask.__init__(self, __name__)
+        self.jinja_loader = jinja2.ChoiceLoader([
+            self.jinja_loader,
+            jinja2.PrefixLoader({}, delimiter = ".")
+        ])
+    def create_global_jinja_loader(self):
+        return self.jinja_loader
+
+    def register_blueprint(self, bp):
+        Flask.register_blueprint(self, bp)
+        self.jinja_loader.loaders[1].mapping[bp.name] = bp.jinja_loader
+
+# Define the WSGI application object
+app = MyApp()
+
+# Import a module / component using its blueprint handler variable
+from app.mod_users.controller import mod as users_module
+from app.mod_camera.controller import mod as camera_module
+
+# Register blueprints
+app.register_blueprint(users_module)
+app.register_blueprint(camera_module)
+{% endhighlight %}
