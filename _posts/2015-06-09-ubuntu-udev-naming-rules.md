@@ -5,7 +5,7 @@ custom_css: syntax.css
 ---
 The poorly documented and understood udev system on Ubuntu now generates persistent device names for network hardware, which is a step up from the old system where device names would be reassigned at boot and hardware changes could make assosciating a name with a physical insterface very frustrating. I wanted to take this a step further and generate meaningful custom names for different classes of hardware. 
 
-Specifically, much of the work I do involves USB 4G modems that appear as an emulated ethernet device. I want specific modems to recieve device names other than eth(x) to refect the networks they run on and the hardware they use. For example, I want Pantech UML 295s to appear as vz(x) instead of eth(x). Previously, I had been doing this the manual way recommended any time this question is asked on the internet and modifying the `/etc/udev/rules.d/70-persistent-net.rules` file to change the name of a device after it had been plugged in. For example:
+Specifically, much of the work I do involves USB 4G modems that appear as an emulated ethernet device. I want specific modems to recieve device names other than eth(x) to refect the networks they run on and the hardware they use. For example, I want Pantech UML 295s to appear as vz(x) instead of eth(x). Previously, I had been doing this the manual way that gets recommended any time this question is asked on the internet and modifying the `/etc/udev/rules.d/70-persistent-net.rules` file to change the name of a device after it had been plugged in. For example:
 
 {% highlight bash %}
 # USB device 0x10a9:0x6064 (cdc_ether)
@@ -16,9 +16,9 @@ This would change the name of the card with this specific MAC address to be vz0.
 
 Rule generation is handled by the file `/lib/udev/rules.d/75-persistent-net-generator.rules` which invokes the shell script `/lib/udev/write_net_rules` to actually create the persistent rules file (this is all on Ubuntu and may be slightly different on other distributions).
 
-The `write_net_rules script` operates based on the values the environment variables that are set before execution and helpfully includes the variable `INTERFACE_NAME` which allows "external tools" (whatever that means) to choose a name for the interface. This actually means that we won't even need to modify the `75-persistent-net-generator.rules` file at all and can simply create our own file that will execute before it in the udev rule chain to set the `INTERFACE_NAME` variable. To do this, I created `/etc/udev/rules.d/71-cell-card-naming.rules` which looks like this:
+The `write_net_rules` script operates based on the values the environment variables that are set before execution and helpfully includes the variable `INTERFACE_NAME` which allows "external tools" (whatever that means) to choose a name for the interface. This actually means that we won't even need to modify the `75-persistent-net-generator.rules` file at all and can simply create our own file that will execute before it in the udev rule chain to set the `INTERFACE_NAME` variable. To do this, I created `/etc/udev/rules.d/71-cell-card-naming.rules` which looks like this:
 
-{% highlight text %}
+{% highlight bash %}
 ENV{ID_VENDOR_ID}=="216f", ENV{ID_MODEL_ID}=="0047", ENV{INTERFACE_NAME}="cio0"
 
 ENV{ID_VENDOR_ID}=="10a9", ENV{ID_MODEL_ID}=="6064", ENV{INTERFACE_NAME}="vz0"
@@ -81,7 +81,7 @@ fi
 
 {% endhighlight %}
 
-I reworked the control flow so that the check for duplicate interface names would not get skipped if custom names were in use:
+I reworked the control flow so that the check for duplicate interface names would not get skipped if custom names were in use. Simply replace the above lines with the code shown here:
 
 {% highlight bash %}
 basename=${INTERFACE%%[0-9]*}
