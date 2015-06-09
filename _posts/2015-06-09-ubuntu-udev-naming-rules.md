@@ -24,7 +24,7 @@ ENV{ID_VENDOR_ID}=="216f", ENV{ID_MODEL_ID}=="0047", ENV{INTERFACE_NAME}="cio0"
 ENV{ID_VENDOR_ID}=="10a9", ENV{ID_MODEL_ID}=="6064", ENV{INTERFACE_NAME}="vz0"
 {% endhighlight %}
 
-The file contains two rules which provide interface names for different classes of 4G card. The match information at the beginning of each command was found using the udevadm command to print info about the device. To print all information on the Pantech card the command looked like this: `udevadm info -a --path /sys/class/net/eth2 | less`. It prints a lot of information, but the important stuff is this:
+The file contains two rules which provide interface names for different classes of 4G card. The match information at the beginning of each command was found using the udevadm command to print info about the device. To print all information on the Pantech card the command looked like this: `udevadm info -q all --path /sys/class/net/eth2 | less`. It prints a lot of information, but the important stuff is this:
 
 {% highlight text %}
 P: /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.7/2-1.7:1.0/net/eth2
