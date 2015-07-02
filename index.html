@@ -2,25 +2,30 @@
 layout: default
 title: A Light On Few Street
 ---
-<article>
-	<header>
-		<h1>A few of my recent projects:</h1>
-		<p>Here are a few of my recent projects / snippets of code.</p>
-	</header>
-    {% for post in site.posts %}
-		<section>
-			<h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-			<div id="date">{{ post.date | date_to_string }}</div>
-			<p>{{ post.excerpt }}</p>
-		</section>
-	{% endfor %}
-</article>
-
-<aside>
-	<h3>About Me?</h3>
-	<p>I am Peter Den Hartog. I have a degree in Mechanical Engineering with a minor in Computer Science at
-	 the University of Wisconsin, Madison. I am currently in graduate school for a masters in Computer Science. 
-	 I build things, program in python, and work in a research position designing networking devices. 
-	 This is my blog / portfolio / scratchpad. 
-	 </p>
-</aside>
+<div class="row">
+  <div class="col-md-8">
+    <article>
+      <header>
+        <h2>A few of my recent projects:</h2>
+        <p>Here are a few of my recent projects / snippets of code.</p>
+      </header>
+        {% for post in site.posts %}
+        <section>
+          <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+          <div id="date">{{ post.date | date_to_string }}</div>
+          <p>{{ post.excerpt }}</p>
+        </section>
+      {% endfor %}
+    </article>
+  </div>
+  <div class="col-md-4">
+    <aside id="main-aside">
+      <h3>About Me?</h3>
+      <p>I am Peter Den Hartog. I have a degree in Mechanical Engineering with a minor in Computer Science at
+       the University of Wisconsin, Madison. I am currently in graduate school for a masters in Computer Science. 
+       I build things, program in python, and work in a research position designing networking devices. 
+       This is my blog / portfolio / scratchpad. 
+       </p>
+    </aside>
+  </div>
+</div>

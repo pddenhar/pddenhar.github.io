@@ -10,7 +10,7 @@ copied back to my home NAS over FTP. To do this, I use the
 a shell script upon download completion.
 
 Files in different categories get saved to separate directories, so I wrote a shell script 
-to identify completes torrents by the directory they were saved in and FTP them to a 
+to identify completed torrents by the directory they were saved in and FTP them to a 
 specified directory on my server. 
 
 The script can be found on my GitHub [here:](https://github.com/pddenhar/deluge-execute-ftpscript)

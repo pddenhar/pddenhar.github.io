@@ -1,11 +1,11 @@
-article#skills section h3 {
+article#skills section h4 {
 	width:350px;  
 	display:inline-block;
 	padding:0;
 	margin:0;
 
 }
-article#skills section h3:after {
+article#skills section h4:after {
 	content:':';
 }
 article#skills div.skill {
@@ -14,4 +14,7 @@ article#skills div.skill {
 	padding-left:0;
 }
 article#skills span.rating {
+}
+hr {
+    border-top: 1px solid #B8B8B8;
 }
