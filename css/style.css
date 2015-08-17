@@ -5,6 +5,7 @@
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
+  font-family: Raleway, 'Open Sans', Arial, sans-serif;
 }
 #header-text {
   font-size: 20pt;
@@ -27,6 +28,14 @@
   padding: 0 20px 15px;
   text-align: justify;
   background-color: #eee;
+}
+
+article header {
+  padding-bottom: 10px;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: Raleway, 'Open Sans', Arial, sans-serif;
 }
 h2 {
   color: #1F1D24;
