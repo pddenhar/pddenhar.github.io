@@ -11,7 +11,7 @@ windshield due to a combination of rust and shoddy resealing done by the previou
 ![1989 Volvo 240]({{ site.url }}/images/volvo_windshield/2018-01-07 16.30.16.jpg)
 
 Rather than try to bodge some silicon sealant into the leaky areas and buy myself another couple of years, I chose to fully remove the windshield and 
-re-glue it with urethane, replacing the chrome trim strip and clips with more modern rubber trim and the same time. 
+re-glue it with urethane, replacing the chrome trim strip and clips with more modern rubber trim at the same time. 
 
 Using a piece of braided steel wire and two dowels as handles, I sawed through the existing urethane after poking a hole with a exacto knife to feed the wire through.
 What was waiting for me underneath was not pretty.
