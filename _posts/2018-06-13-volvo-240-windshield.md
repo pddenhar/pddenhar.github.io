@@ -8,6 +8,8 @@ by [22 plastic clips](https://www.volvopartswebstore.com/products/Volvo/240/Clip
 set into the butyl rubber used to mount the windshield. My 1989 240 developed a leak near the top right of the 
 windshield due to a combination of rust and shoddy resealing done by the previous owner. 
 
+![1989 Volvo 240]({{ site.url }}/images/volvo_windshield/2018-01-07 16.30.16.jpg)
+
 Rather than try to bodge some silicon sealant into the leaky areas and buy myself another couple of years, I chose to fully remove the windshield and 
 re-glue it with urethane, replacing the chrome trim strip and clips with more modern rubber trim and the same time. 
 
