@@ -64,7 +64,9 @@ For the temperature and humidity of my location, Dow calls for at least 5 hours 
 
 ![Blue tape]({{ site.url }}/images/volvo_windshield/2018-06-13 19.06.36.jpg)
 
-Overall, a pretty long process but nothing an experienced garage fabricator couldn't do on their own. 
+Overall, a pretty long process but nothing an experienced garage fabricator couldn't do on their own. The final result doesn't look too bad:
+
+![Finished image]({{ site.url }}/images/volvo_windshield/2018-06-14 12.44.17.jpg)
 
 I'm sure it's a horrible misuse of the urethane, but I had a few grams left over, so I used it to glue the perpetually falling off glovebox back together:
 
