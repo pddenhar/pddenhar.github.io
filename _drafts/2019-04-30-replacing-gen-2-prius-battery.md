@@ -18,3 +18,5 @@ repairing the battery using individual cells purchased from Ebay instead of imme
 (seriously, buy the [trim tool](https://amzn.to/2GP5lpl) and some replacement [trim clips](https://amzn.to/2GWj7b2) from Amazon! It makes the job so much easier) to remove the rear interior, seats, and hybrid battery. 
 
 I also purchased some [Toyota WS ATF](https://amzn.to/2LqJzxw) while I was at it, figuring that I might as well refresh the transaxle fluid while I was working on the hybrid system.
+
+Once I had the battery out of the car and on my bench I measured the voltage of each of the 28 cell packs. All of them except for cell 11 and cell 21 were within a few hundredths of a volt of 7.75v. Cells 11 and 21 were both close to 6.45v.
