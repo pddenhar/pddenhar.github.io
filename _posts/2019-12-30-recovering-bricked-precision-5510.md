@@ -7,6 +7,11 @@ My Dell Precision 5510 (more or less an enterprise XPS 15 9550) recently updated
 Apparently this BIOS version has a known issue where pressing F8 during boot will cause a no-POST, no display condition which effectively bricks the laptop.
 When the power button was pressed, my laptop would do nothing other than light the power LED. No fans, so image on screen at all.
 
+I've seen many other people with this issue on the web, so this isn't an isolated problem:
+* https://www.reddit.com/r/Dell/comments/8vixl6/cannot_recover_a_possibly_bricked_xps_15_9550/
+* https://www.reddit.com/r/Dell/comments/87n2r5/anyone_else_have_bios_updates_bricking_laptops/
+* https://www.google.com/search?q=precision+5510+bricked+no+post+site:www.reddit.com
+
 Oddly enough, holding D when pressing the power button would bring up the display diagnostics which worked fine. The display would cycle through the colors and then shut down.
 
 The way I finally fixed my system is as follows:
@@ -23,3 +28,4 @@ The way I finally fixed my system is as follows:
 Oddly enough, the BIOS version never changed from version 1.12.0 even though I used the file for 1.7.0. Nonetheless, 
 this was the only way I managed to even get any sign of life out of my laptop. I have seen many people with this problem on the web, so I hope my experience helps someone else recover their (very expensive) laptop.
 
+Since this issue seems to also apply to people with the XPS 15 9550 and other laptops, there's a chance that the above steps will also help them. 
