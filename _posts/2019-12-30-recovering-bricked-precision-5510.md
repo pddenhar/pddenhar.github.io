@@ -21,7 +21,7 @@ The way I finally fixed my system is as follows:
 * Reassemble the laptop.
 * Download version 1.7.0 of the BIOS and copy it to a FAT32 formatted flash drive. Rename the file to "BIOS_IMG.rcv"
 * Plug the flash drive into the top left USB port next to the power jack on the laptop.
-* Hold ctrl and esc and plug the powe cable into the laptop. It will boot and perform a BIOS recovery.
+* Hold CTRL and ESC and plug the power cable into the laptop. It will boot and perform a BIOS recovery.
 * Let the laptop reboot itself. If you were successful, a screen should show up saying that the RTC time is invalid.
 
 Oddly enough, the BIOS version never changed from version 1.12.0 even though I used the file for 1.7.0. Nonetheless, 
