@@ -8,7 +8,7 @@ Apparently this BIOS version has a known issue where pressing F8 during boot wil
 When the power button was pressed, my laptop would do nothing other than light the power LED. No fans, so image on screen at all.
 
 I've seen many other people with this issue on the web, so this isn't an isolated problem:
-* (https://www.reddit.com/r/Dell/comments/8vixl6/cannot_recover_a_possibly_bricked_xps_15_9550/)
+* https://www.reddit.com/r/Dell/comments/8vixl6/cannot_recover_a_possibly_bricked_xps_15_9550/
 * https://www.reddit.com/r/Dell/comments/87n2r5/anyone_else_have_bios_updates_bricking_laptops/
 * https://www.google.com/search?q=precision+5510+bricked+no+post+site:www.reddit.com
 
