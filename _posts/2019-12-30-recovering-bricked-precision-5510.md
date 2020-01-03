@@ -4,14 +4,14 @@ title: Recovering a bricked Dell Precision 5510
 ---
 My Dell Precision 5510 (more or less an enterprise XPS 15 9550) recently updated itself to BIOS version 1.12.0. Apparently this BIOS version has a known issue where pressing F8 during boot will cause a no-POST, no display condition which effectively bricks the laptop.
 
-When the power button was pressed, my laptop would do nothing other than light the power LED. No fans, so image on screen at all.
+When the power button was pressed, my laptop would do nothing other than light the power LED. No fans, no image on screen at all.
 
 I've seen many other people with this issue on the web, so this isn't an isolated problem:
 * <https://www.reddit.com/r/Dell/comments/8vixl6/cannot_recover_a_possibly_bricked_xps_15_9550/>
 * <https://www.reddit.com/r/Dell/comments/87n2r5/anyone_else_have_bios_updates_bricking_laptops/>
 * <https://www.google.com/search?q=precision+5510+bricked+no+post+site:www.reddit.com>
 
-Oddly enough, holding D when pressing the power button would bring up the display diagnostics which worked fine. The display would cycle through the colors and then shut down.
+Strangely, holding D when pressing the power button would bring up the display diagnostics which worked fine. The display would cycle through the colors and then shut down.
 
 The way I finally fixed my system is as follows:
 
