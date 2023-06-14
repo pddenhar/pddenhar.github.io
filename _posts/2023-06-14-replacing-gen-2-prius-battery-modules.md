@@ -9,10 +9,10 @@ repairing the battery using individual cells purchased from Ebay instead of imme
 
 |  Supplies               | Link                    |
 |-------------------------|-------------------------|
-| Trim Clip Removal Tool  | https://amzn.to/2GP5lpl |
-| Replacement Trim Clips  | https://amzn.to/2GWj7b2 |
-| Turnigy Battery Charger |                         |
-| Toyota WS ATF           | https://amzn.to/2LqJzxw |
+| Trim Clip Removal Tool  | [Tool](https://amzn.to/2GP5lpl) |
+| Replacement Trim Clips  | [Clips](https://amzn.to/2GWj7b2) |
+| Meanwell Power Supply   | [Digikey](https://www.digikey.com/en/products/detail/mean-well-usa-inc/HLG-60H-C350B/7704167) |
+| Toyota WS ATF           | [ATF](https://amzn.to/2LqJzxw) |
 
 Removing the Battery
 --------------------
@@ -44,5 +44,5 @@ Reinstalling the Pack
 
 One final note for re-installation: I wasn't sure how the Prius would handle a fully charged pack, since it generally expects charge state to be less than ~80% or so (to preserve the life of the cells). With this in mind, I decided to slightly discharge the pack before installing it. I connected a 40W light bulb across half of the pack at a time and discharged each half for an hour, which brought cell voltage down from the maximum value.
 
-Otherwise, installation is the reverse of removal😉
+Otherwise, installation is the reverse of removal 😉
 
