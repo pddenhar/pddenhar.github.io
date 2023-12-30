@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Replacing 4L80e TCC Regulator Valve
+title: Cleaning / Fixing 4Runner Door Switches
 custom_css: syntax.css
 excerpt_separator: <!--more-->
 ---
 If you have a 3rd Gen 4Runner (1996-2002) that no longer lights the dome light when the doors are opened, chances are your door switches are dirty or in need of repair. Luckily, it's a very easy fix.
 <!--more-->
-Your door switches are located here on the door, right behind the latch plate.
+Your door switches are located here on the door, right behind the latch plate:
 ![Location of door switches]({{ site.url }}/images/4runner/location.png)
 
 Gently lift up the lower portion of the rubber cover and use a 10mm socket to remove the door switch.
