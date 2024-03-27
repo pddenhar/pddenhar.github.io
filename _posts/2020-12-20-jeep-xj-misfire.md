@@ -59,5 +59,5 @@ At this point, it was time to really dig in. Uneven fueling could cause the ECU 
 
 Looking at the six injectors, it seemed possible that I had found thed cause. Two of the six were a different brand and serial number, and two more had large cracks in their plastic bodies.
 
-I ordered six [Bosch EV6 injectors on eBay](https://rover.ebay.com/rover/1/711-53200-19255-0/1?ff3=4&toolid=11800&pub=5575583918&campid=5338677565&mpre=https%3A%2F%2Fwww.ebay.com%2Fitm%2FOEM-Bosch-Fuel-Injectors-Set-6-0280155784-Upgrade-for-Jeep-1999-2004-4-0L-I6%2F190805334583%3F_trkparms%3Daid%253D111001%2526algo%253DREC.SEED%2526ao%253D1%2526asc%253D20160908105057%2526meid%253D9fb05f913e624b4da673800be62577f3%2526pid%253D100675%2526rk%253D3%2526rkt%253D15%2526mehot%253Dnone%2526sd%253D201140363164%2526itm%253D190805334583%2526pmt%253D0%2526noa%253D1%2526pg%253D2380057%2526brand%253DBosch%26_trksid%3Dp2380057.c100675.m4236%26_trkparms%3Dpageci%253A6f07a418-4633-11eb-93f3-aed602012d55%257Cparentrq%253A96c47e2d1760a16d14400585ffdecc02%257Ciid%253A1)
+I ordered six Bosch EV6 injectors on eBay
 to replace them. For now, I'm waiting for them to arrive to continue this saga.
