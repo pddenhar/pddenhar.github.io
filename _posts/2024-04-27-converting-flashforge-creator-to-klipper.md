@@ -6,12 +6,15 @@ excerpt_separator: <!--more-->
 ---
 I recently picked up an eight year old Flashforge Creator Pro at the thrift store for $20. It was in "as-is" condition because the front control panel no longer functioned. To bring it back to life I decided to convert it to Klipper with the Mainsail web interface.
 <!--more-->
+
 Overview
 ========
+
 The Klipper ecosystem was quite confusing when I was getting started, so I'll lay out a short summary of the components and how they interact with each other.
 
 Klipper
 -------
+
 Klipper is the base motion controller for your 3D printer. If you're familiar with Marlin, you can think of it the same way. The way Klipper is different is that it runs in *two* places: 
 
 * Klipper: This is a C codebase that runs directly on your printer's microcontroller (An Atmel 2560 in the case of the Flashforge). Unlike Marlin, G-code is *not* processed here
@@ -19,16 +22,19 @@ Klipper is the base motion controller for your 3D printer. If you're familiar wi
 
 Octoprint, Mainsail, Fluidd
 ---------------------------
+
 All three of these are web-based user interfaces for 3D printers. Octoprint is the old favorite, but is not "Klipper native". Klipper essentially pretends to be an old Marlin based printer and allows Octoprint to send it G-Code commands. 
 
 Mainsail and Fluidd are both newer UIs designed specifically to talk to Klipper. They both provide access to Klipper's internal state and allow you to change Klipper configuration options from the web interface. 
 
 Moonraker:
 ----------
+
 Moonraker is a Python based web server that allows the web GUIs to interact with Klipper. Moonraker provides access to the Klipper specific information and configuration options that Mainsail and Fluidd user. You will hopefully not need to mess with Moonraker, as it is pre-installed on most Klipper OS images.
 
 Installation on the Creator Pro
 ===============================
+
 The Creator Pro uses a Flashforge fork of the [Mightyboard](https://www.geeetech.com/wiki/index.php/Mighty_Board) control board designed by Makerbot. It has an Atmel 2560 microcontroller to operate the stepper drivers and process IO.
 
 To install Klipper on the Creator Pro's control board, you first need a Raspberry Pi running Klippy. I chose to use the MainsailOS image available in the [RaspberryPi Imager](https://www.raspberrypi.com/software/). MainsailOS comes with Klipper, Moonraker, and Mainsail preinstalled.
@@ -46,6 +52,7 @@ In my case, the full path to my printer's serial device is `/dev/serial/by-id/us
 
 Building Firmware
 -----------------
+
 We're now ready to compile Klipper and flash it to the control board over USB.
 
 `cd ~/klipper` and run `make menuconfig`. The only thing you need to change here is the Microcontroller Architechture and Processor Model.
@@ -66,6 +73,7 @@ Replace the `/dev/...` string with the one you found earlier with `ls`. Congratu
 
 Configuring Klipper
 -------------------
+
 The last step is to tell Klipper what hardware is connected and how to run it. This is done with a `printer.cfg` file stored in the `~/printer_data/config` folder.
 
 The easiest way to modify the config is to use the Mainsail web GUI. Browse to your Pi's IP address in a browser and you should see the Mainsail GUI. Click the "Machine" button in the left menu to view the printers config files.
