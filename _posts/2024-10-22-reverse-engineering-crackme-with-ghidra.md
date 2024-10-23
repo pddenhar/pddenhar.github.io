@@ -12,7 +12,7 @@ This is a tutorial to introduce you to reverse engineering in Ghidra and demonst
 <!--more-->
 For those unfamiliar, a crackme is a reverse engineering challenge with a specially constructed binary. The binary is usually something like a simulated serial number checker with the goal being to find a valid serial number by looking at the binary's code. In this case, CrackMe#1 shows a window with a Serial field and displays a "Try Again!" dialog on an incorrect entry: 
 
-![crackme #1 UI image](../images/ghidra/image.png)
+![crackme #1 UI image]({{ site.url }}/images/ghidra/image.png)
 
 The first step in reverse engineering an unknown Windows binary is getting a VM set up to do your work in. Windows Defender triggers on this CrackMe because of the binary obfuscation techniques used and it's just general good practice to isolate your reverse engineering workspace. 
 
@@ -23,19 +23,19 @@ Unpacking the Binary
 
 Download the crackme and extract it to a project directory. Create a new project in Ghidra and import the binary. You will see that it is a 32-bit Windows ELF: 
 
-![import window](../images/ghidra/import.png)
+![import window]({{ site.url }}/images/ghidra/import.png)
 
-You can drag the .exe onto the CodeBrowser icon in the toolbox and let Ghidra analyze it. The default settings for analysis are fine here. Usually a good first step in Ghidra is to open up the Defined Strings window and see if we can find anything that looks important ("Key is Correct" or similar). In this case, things might look a bit confusing: ![strings](../images/ghidra/strings.png)
+You can drag the .exe onto the CodeBrowser icon in the toolbox and let Ghidra analyze it. The default settings for analysis are fine here. Usually a good first step in Ghidra is to open up the Defined Strings window and see if we can find anything that looks important ("Key is Correct" or similar). In this case, things might look a bit confusing: ![strings]({{ site.url }}/images/ghidra/strings.png)
 
 There doesn't seem to be anything here! This could be because the author of the CrackMe has not hard coded any strings and is generating them at run time, but in this case the Ghidra Program Tree gives us a big hint: 
 
-![alt text](../images/ghidra/program_tree.png)
+![alt text]({{ site.url }}/images/ghidra/program_tree.png)
 
 The program data sections don't contain anything except two large sections called `UPX0` and `UPX1` and Ghidra was also not able to find **any** functions other than the entry point. This tells us that the binary has been compressed with a packer. The `_entry` function's only job is to load the compressed data from the `UPX0` and `UPX1` sections at runtime and insert the real program code into memory. 
 
 Let's open `CrackMe#1.exe` up in CFF Explorer to confirm. Right away you'll see that "File Info" is listed as "UPX 2.90", confirming that the binary has been packed. 
 
-![cff explorer](<../images/ghidra/CFF Explorer.png>)
+![cff explorer](<{{ site.url }}/images/ghidra/CFF Explorer.png>)
 
 Click on UPX Utility on the left hand side and run the "unpack" command. `File->Save As` under a new filename (I used `CrackMeUnpacked.exe`). Import the new .exe into Ghidra and run Analyze again. This time we've gotten somewhere. You'll notice that several functions have been identified and that the Defined Strings tab now contains several new items. 
 
@@ -44,7 +44,7 @@ Starting Analysis
 
 Move to the Defined Strings tab and take a look at the new strings. We've got some that are obviously GUI / event handler related and those are where we want to start. Select the string "Try Again!" and right click on the data item in the Listings tab. Select `References->Show References to Address` to view the locations in the decompiled code where the string is used. 
 
-![try again](../images/ghidra/try_again.png)
+![try again]({{ site.url }}/images/ghidra/try_again.png)
 
 In this case, the string is only used in one place and it's obviously a failure check on the string entry field:
 
@@ -81,15 +81,15 @@ Let's start breaking the code down into chunks and try to understand them indivi
 
 We need to find what calls `check_input`. Right click on `check_input` and use `References->Find references to check input`. Apparently, nothing! At least on Ghidra 11, no decompiled code seemed to reference `check_input`. At this point, the function call could either be obfuscated or Ghidra simply might have missed some code on the first pass. Go back to Defined Strings and this time let's find references to the string "Have fun with the remake of my first crackme ...".
 
-![partially decompiled function](../images/ghidra/image-1.png)
+![partially decompiled function]({{ site.url }}/images/ghidra/image-1.png)
 
 This code where the other dialog string is used does not look fully decompiled. Directly above it, there are a series of bytes that look like instructions that were skipped. Scroll up to the top of the byte block and press **D** to decompile them. 
 
-![call to check input](../images/ghidra/image-2.png)
+![call to check input]({{ site.url }}/images/ghidra/image-2.png)
 
 There's our call to `check_input`! It still looks like a slice of a larger function, so press **A** and re-analyze the file now that we've found more valid code. Now things start to make sense:
 
-![properly decompiled code](../images/ghidra/image-3.png)
+![properly decompiled code]({{ site.url }}/images/ghidra/image-3.png)
 
 The things that looked like partial functions were actually `case:` statements in a large `switch()`! The function is now decompiled and it looks like an event handler from a GUI.
 
@@ -141,7 +141,7 @@ The address that's passed in is actually right below the function! It's a big bl
 
 Back in `check_input`, let's update the function signature with what we've learned. Press **F** to edit the function and add a `uint` return value. You can see Ghidra automatically assigns the EAX register to handle it. Rename `param_1` to `nop_pointer` as well, since we know that's what's being passed in now. 
 
-![check_input function signature](../images/ghidra/image-7.png)
+![check_input function signature]({{ site.url }}/images/ghidra/image-7.png)
 
 Let's dig into this `do .. while` loop now:
 ```C  
@@ -168,11 +168,11 @@ Relabel the globals on this first **XOR** as follows:
 ```
 The following lines still look like a mess though:
 
-![following lines of XOR code](../images/ghidra/image-5.png)
+![following lines of XOR code]({{ site.url }}/images/ghidra/image-5.png)
 
 This is because Ghidra is not interpreting the globals we just re-labeled as arrays. It's treating each indexed memory access as a brand new global variable. Double click on `xor_output` to be taken to the code listing for its address. Select `xor_output` and the next 23 items and press **C** to clear Ghidra's interpretation of them. Next, click on `xor_output` and press **T** to open the Data Type chooser. Enter `char[24]` to configure `xor_output` as an array of 24 characters. Now Ghidra can correctly interpret indexed access to the global variable. 
 
-![xor_access is an array now](../images/ghidra/image-6.png)
+![xor_access is an array now]({{ site.url }}/images/ghidra/image-6.png)
 
 Do the exact same thing for `xor_constant` and `input_string` to fix all the array access. Looking at the loop now, we can see that it's taking the **XOR** of each character in `input_string` with a character from `xor_constant`. The result is stored in `xor_output`.
 
@@ -337,6 +337,6 @@ C: 0x6a 0x40 0x68 0x28 0xb0 0x40 0x00 0x68 0x38 0xb0 0x40 0x00 0xff 0x35 0xf0 0x
 
 We can see that the CRC32 of our target bytecode is correct! Therefore, the result of the XOR is our serial key: **crackmes.one-kicks-ass**
 
-![success dialog](../images/ghidra/image-4.png)
+![success dialog]({{ site.url }}/images/ghidra/image-4.png)
 
 Success! We've found the key that generates the correct bytecode to pop up the "Well Done!" message and have solved the crackme. 
