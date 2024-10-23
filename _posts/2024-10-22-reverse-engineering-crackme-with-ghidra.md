@@ -48,7 +48,7 @@ Move to the Defined Strings tab and take a look at the new strings. We've got so
 
 In this case, the string is only used in one place and it's obviously a failure check on the string entry field:
 
-``` C
+{% highlight C %}
 undefined4 __cdecl FUN_00406600(LPVOID param_1)
 
 {
@@ -68,7 +68,7 @@ undefined4 __cdecl FUN_00406600(LPVOID param_1)
   uVar4 = MessageBoxA(DAT_0040b4f0,"Try again!",s_Information_0040b028,0x40);
   return uVar4 & 0xffffff00;
 }
-```
+{% endhighlight %}
 
 It looks like we have a function with some kind of data processing loop (the `do .. while` section), a call to extra processing (`iVar1 = FUN_00406490();`) and then an `if` check on the return value from that call. If two conditions are met (`(iVar1 == 0x5a6aa47d) && (DAT_0040b4ec == 0x16)`) the code does some interesting stuff with `WriteProcessMemory` and then returns **without** showing the "Try Again!" dialog. Interesting!
 
@@ -93,7 +93,7 @@ There's our call to `check_input`! It still looks like a slice of a larger funct
 
 The things that looked like partial functions were actually `case:` statements in a large `switch()`! The function is now decompiled and it looks like an event handler from a GUI.
 
-```C
+{% highlight C %}
 HBRUSH FUN_00406840(HWND param_1,uint param_2,HDC param_3)
 
 {
@@ -117,13 +117,13 @@ HBRUSH FUN_00406840(HWND param_1,uint param_2,HDC param_3)
   }
   // SNIP else statement
 }
-```
+{% endhighlight %}
 
 This code gets a text string using [GetDlgItemTextA](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getdlgitemtexta) and stores the length of the string in `DAT_0040b4ec` and the string itself in `DAT_0040b514`. Lets rename those globals (**L** key) to `input_length` and `input_string`. Now we know where the string being passed to `check_input` comes from. Let's label this function `handle_event`.
 
 One final thing to notice is that a memory address is being passed to `check_input`:
 
-```Assembly
+{% highlight Assembly %}
         00406bcf 68 e1 6b        PUSH       LAB_00406be1  ; This address is being passed to check_input
                  40 00
         00406bd4 e8 27 fa        CALL       check_input                                      
@@ -135,7 +135,7 @@ One final thing to notice is that a memory address is being passed to `check_inp
         00406be1 90              NOP                      ; Why would we run this code?
         00406be2 90              NOP
         00406be3 90              NOP
-```
+{% endhighlight %}
 
 The address that's passed in is actually right below the function! It's a big block of `NOP` instructions. There also seems to be a value returned from `check_input` in the `EAX` register. After the call to `check_input` the return value is compared to **zero**. If zero, a `JZ` instruction jumps over the block of `NOP`s, but if something non-zero is returned they would be executed like normal instructions... Let's rename `LAB_00406be1` to `NOP_BLOCK` and go back to `check_input`.
 
@@ -144,7 +144,7 @@ Back in `check_input`, let's update the function signature with what we've learn
 ![check_input function signature]({{ site.url }}/images/ghidra/image-7.png)
 
 Let's dig into this `do .. while` loop now:
-```C  
+{% highlight C %}  
   iVar1 = 0;
   iVar5 = 0;
   do {
@@ -159,13 +159,13 @@ Let's dig into this `do .. while` loop now:
     // SNIP 5x more similar operations
     iVar5 = iVar5 + 6;
   } while (iVar5 < 0x18);
-```
+{% endhighlight %}
 This looks like a loop that moves through `input_string` one character at a time and **XOR**s it with a string stored in `DAT_00409480`. The result is then stored in `DAT_0040b568`. The loop performs the **XOR** for 6 characters each iteration, up to a length of 0x18, or 24 characters. Let's clean up the labels and data types of these global variables to make the code readable. 
 
 Relabel the globals on this first **XOR** as follows:
-```C
+{% highlight C %}
 (&xor_output)[output_index] = (&xor_constant)[output_index] ^ (&input_string)[input_index];
-```
+{% endhighlight %}
 The following lines still look like a mess though:
 
 ![following lines of XOR code]({{ site.url }}/images/ghidra/image-5.png)
@@ -177,14 +177,14 @@ This is because Ghidra is not interpreting the globals we just re-labeled as arr
 Do the exact same thing for `xor_constant` and `input_string` to fix all the array access. Looking at the loop now, we can see that it's taking the **XOR** of each character in `input_string` with a character from `xor_constant`. The result is stored in `xor_output`.
 
 After the input has been **XOR**d, another function is called. I'm not going to break this one down entirely, but the major hint about its function is this call in another loop:
-```Assembly
+{% highlight Assembly %}
         004064c0 81 f2 20        XOR        EDX,0xedb88320
                  83 b8 ed
-```
+{% endhighlight %}
 `0xedb88320` is the CRC32 polynomial, so we can assume that this function computes the CRC32 checksum of `xor_output`. Let's label the function `crc_32_chksum`. Label the variable it returns `crc_32` (use the "Split Out As New Variable" menu item, since it re-uses an index register from the loop above). 
 
 Now the final bit of code in `check_input` is starting to make sense. We're **XOR**ing our input, computing the CRC32, and then checking if our input string is 22 characters long and the CRC32 matches a specific value.
-```C
+{% highlight C %}
   crc_32 = crc_32_chksum();
   if ((crc_32 == 0x5a6aa47d) && (input_length == 22)) {
     dwProcessId = GetCurrentProcessId();
@@ -192,14 +192,14 @@ Now the final bit of code in `check_input` is starting to make sense. We're **XO
     BVar2 = WriteProcessMemory(hProcess,nop_pointer,xor_output,0x18,(SIZE_T *)0x0);
     return 1;
   }
-```
+{% endhighlight %}
 This is the whole trick of the program. When we input the right serial string, it gets **XOR**d with a magic string and then *written into the instruction space of the program* if it matches the right CRC32. Afterwards, the `check_input` function returns 1 which causes `handle_event` to execute the block of memory (previously filled with `NOP`s) that we just overwrote. 
 
 Jump back into the Defined Strings browser and look for another string with the test "Well Done!". This string is used once in the code listing, but it looks like a joke designed to mislead us into thinking we've found the success function:
-```C
+{% highlight C %}
   // Snip
   s_Well_done!_0040b038[0] = 'W'; // Called during some init code
-```
+{% endhighlight %}
 This code doesn't do anything at all. We would expect a code block somewhere very similar to the one that pops up "Try Again!" but using the "Well Done!" string. It's looking like **we** are going to have to construct our own success message box using the `xor_output` of our serial string. 
 
 Luckily, we've know the target output we need to create is **24 bytes** (the length of our **XOR** `do ... while` loop) and it probably needs to create a dialog box similar to the "Try Again!" when we input the wrong serial.
@@ -207,7 +207,7 @@ Luckily, we've know the target output we need to create is **24 bytes** (the len
 One possible method would be to brute force an `xor_output` string that has the CRC32 value `0x5a6aa47d`. This would be great, except it 
 
 Here's the assembly code to create the "Try Again!" dialog:
-```Assembly
+{% highlight Assembly %}
 6a 40           PUSH       0x40
 68 28 b0        PUSH       0x0040b028                           = "Information"
 40 00
@@ -217,10 +217,10 @@ ff 35 f0        PUSH       dword ptr [DAT_0040b4f0]
 b4 40 00
 ff 15 dc        CALL       dword ptr [->USER32.DLL::MessageBoxA]
 90 40 00
-```
+{% endhighlight %}
 
 With one little change, we could make this pop up a dialog box that says "Well Done!":
-```Assembly
+{% highlight Assembly %}
 6a 40           PUSH       0x40
 68 28 b0        PUSH       0x0040b028                           = "Information"
 40 00
@@ -230,11 +230,11 @@ ff 35 f0        PUSH       dword ptr [DAT_0040b4f0]
 b4 40 00
 ff 15 dc        CALL       dword ptr [->USER32.DLL::MessageBoxA]
 90 40 00
-```
+{% endhighlight %}
 If you count the instruction bytes on the left, it's 24 bytes long! Pretty promising. We know the actual password is the **XOR** of our `xor_output` string and **XOR** is an invertible operation. 
 
 I wrote a small C program that **XOR**s the bytecode we created above with the `xor_constant` string as well as computing its CRC32.
-```C
+{% highlight C %}
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
@@ -320,7 +320,7 @@ int main() {
 	printf("\n\n");
 
 }
-```
+{% endhighlight %}
 
 Running this code produces the following output:
 ```
