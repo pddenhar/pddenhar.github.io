@@ -6,7 +6,7 @@ excerpt_separator: <!--more-->
 ---
 I've been solving crackme challenges from [crackmes.one](https://www.crackmes.one/) in Ghidra lately, 
 and [FatMike's CrackMe#1](https://www.crackmes.one/crackme/66eefd471070323296555682) is the first real "challenge" I've solved on after stepping up from the more trivial
-challenges like the [Ioli Crackmes](https://github.com/radareorg/radare2-book/raw/master/src/crackmes/ioli/IOLI-crackme.tar.gz).
+challenges like the [ioli Crackmes](https://github.com/radareorg/radare2-book/raw/master/src/crackmes/ioli/IOLI-crackme.tar.gz).
 
 This is a tutorial to introduce you to reverse engineering in Ghidra and demonstrate how I solved this crackme.
 <!--more-->
@@ -181,7 +181,7 @@ After the input has been **XOR**d, another function is called. I'm not going to 
         004064c0 81 f2 20        XOR        EDX,0xedb88320
                  83 b8 ed
 ```
-`0xedb88320` is the CRC32 polynomial, so we can assume that this function computes the CRC32 checksum of `xor_output`. Let's label the function `crc_32_chksum`. Label the variable it return `crc_32` (use the "Split Out As New Variable" menu item, since it re-uses an index register from the loop above). 
+`0xedb88320` is the CRC32 polynomial, so we can assume that this function computes the CRC32 checksum of `xor_output`. Let's label the function `crc_32_chksum`. Label the variable it returns `crc_32` (use the "Split Out As New Variable" menu item, since it re-uses an index register from the loop above). 
 
 Now the final bit of code in `check_input` is starting to make sense. We're **XOR**ing our input, computing the CRC32, and then checking if our input string is 22 characters long and the CRC32 matches a specific value.
 ```C
