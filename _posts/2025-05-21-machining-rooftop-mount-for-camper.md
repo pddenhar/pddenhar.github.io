@@ -7,7 +7,8 @@ excerpt_separator: <!--more-->
 I wanted a way to mount my canoe on my ambulance camper and I already had a pair of Yakima round bars but no 
 way to mount them to the existing hard points on the roof. I whipped up a clamp that could mount the bars to 
 the roof in Fusion and machined it on my Tormach PCNC440.
- 
+
+<!--more-->
 A trick I like doing for flat parts is skipping a second setup and saving stock by just machining the first op on the end face of a big piece of bar stock:
 ![Part in milling machine]({{ site.url }}/images/camper/image.png)
 
@@ -20,6 +21,7 @@ I also used the AF50 to make a relief cut into the part so that it could clamp o
 
 Finished part holding the roof bars onto the ambulance:
 ![Finished part]({{ site.url }}/images/camper/image3.png)
+
 ![Finished part]({{ site.url }}/images/camper/image4.png)
  
 Crappy home-built canoe matches my crappy home-built camper 😁
